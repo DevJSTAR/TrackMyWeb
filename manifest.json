@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "TrackMyWeb",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Track your web activity, visualize your browsing habits, and get insights into your internet usage.",
   
   "icons": {

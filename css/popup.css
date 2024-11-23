@@ -226,7 +226,6 @@ h2 {
     color: var(--text-secondary);
 }
 
-/* Center text in pie chart */
 .chart-center-text {
     position: absolute;
     text-align: left;
@@ -237,7 +236,7 @@ h2 {
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid var(--border-color);
-    pointer-events: none; /* Prevent tooltip from interfering with hover */
+    pointer-events: none;
     z-index: 1000;
 }
 
@@ -259,7 +258,6 @@ h2 {
     color: var(--accent-color);
 }
 
-/* Settings specific styles */
 .settings-content {
     display: flex;
     flex-direction: column;
@@ -316,7 +314,6 @@ h2 {
     gap: 8px;
 }
 
-/* Add these styles for the switch toggle */
 .switch {
     position: relative;
     display: inline-block;
@@ -383,7 +380,6 @@ input:checked + .slider:before {
     max-width: 200px;
 }
 
-/* Add these styles for scrolling and custom scrollbar */
 .sites-section {
     height: calc(100% - 360px);
     overflow-y: auto;
@@ -392,7 +388,6 @@ input:checked + .slider:before {
     padding-bottom: 16px;
 }
 
-/* Custom scrollbar styles */
 .sites-section::-webkit-scrollbar {
     width: 4px;
 }
@@ -411,7 +406,6 @@ input:checked + .slider:before {
     background: var(--text-secondary);
 }
 
-/* Settings view scrolling */
 .settings-content {
     height: calc(100% - 80px);
     overflow-y: auto;
@@ -438,56 +432,42 @@ input:checked + .slider:before {
     background: var(--text-secondary);
 }
 
-/* Update site-item spacing */
 .site-item {
-    padding: 10px;  /* Reduced padding */
-    margin: 0;      /* Remove margin */
+    padding: 10px;
+    margin: 0;
     border-radius: 12px;
 }
 
-/* Update sites list spacing */
 #sitesList {
     display: flex;
     flex-direction: column;
-    gap: 8px;  /* Default gap */
+    gap: 8px;
 }
 
-/* Remove gap when there's only one item */
 #sitesList:has(> :only-child) {
     gap: 0;
 }
 
-/* Add transition for chart segments */
 .chart-segment {
     transition: all 0.3s ease-in-out !important;
 }
 
-/* Update chart spacing for single segment */
-.chart-container {
-    /* ... existing styles ... */
-}
-
-/* Update dataset configuration for single segment */
 .chart-segment:only-child {
     spacing: 0;
 }
 
-/* Add transition for chart segments */
 canvas {
     transition: none;
 }
 
-/* Update chart-center-text transition */
 .chart-center-text {
     transition: all 0.3s ease-in-out;
 }
 
-/* Add transition for background colors in chart segments */
 .chart-segment {
     transition: background-color 0.3s ease-in-out;
 }
 
-/* Add refresh button styles */
 .refresh-button {
     position: absolute;
     top: 12px;
@@ -519,7 +499,6 @@ canvas {
     transform: rotate(360deg);
 }
 
-/* Update skeleton loading styles */
 @keyframes shimmer {
     0% {
         background-position: -200% 0;
@@ -553,10 +532,9 @@ canvas {
 .skeleton-item {
     height: 72px;
     margin: 8px 0;
-    opacity: 0.7; /* Make items slightly transparent */
+    opacity: 0.7;
 }
 
-/* Disabled button states */
 .action-button:disabled,
 .refresh-button:disabled {
     opacity: 0.5;
@@ -569,7 +547,6 @@ canvas {
     cursor: wait;
 }
 
-/* Add styles for empty state */
 .empty-state {
     display: flex;
     flex-direction: column;
@@ -591,7 +568,6 @@ canvas {
     font-size: 14px;
 }
 
-/* Modal styles */
 .modal {
     position: absolute;
     top: 0;
@@ -626,20 +602,17 @@ canvas {
     transform: translateY(0);
 }
 
-/* Add styles for the settings header */
 .modal header {
     padding: 0 0 16px 0;
     margin-bottom: 20px;
     border-bottom: 1px solid var(--border-color);
 }
 
-/* Update settings content styles */
 .settings-content {
     height: calc(100% - 80px);
     overflow-y: auto;
 }
 
-/* Settings styles */
 .settings-content {
     padding: 0;
 }
@@ -666,7 +639,6 @@ canvas {
     border: 1px solid var(--border-color);
 }
 
-/* Update settings footer styles */
 .settings-footer {
     margin-top: auto;
     padding: 20px 0;
@@ -713,12 +685,10 @@ canvas {
     text-decoration: underline;
 }
 
-/* Remove old styles */
 .links, .made-by {
     display: none;
 }
 
-/* Update theme toggle styles */
 .theme-toggle {
     background: none;
     border: none;
@@ -736,7 +706,6 @@ canvas {
     font-size: 1.2rem;
 }
 
-/* Show/hide icons based on theme */
 .light-icon {
     display: none;
 }
@@ -753,7 +722,6 @@ canvas {
     display: none;
 }
 
-/* Fix icon display */
 .theme-toggle .light-icon {
     display: none;
 }
@@ -770,7 +738,6 @@ canvas {
     display: none;
 }
 
-/* Update border colors for dark mode */
 [data-theme="dark"] .site-item,
 [data-theme="dark"] .setting-item,
 [data-theme="dark"] .chart-container,
@@ -778,14 +745,12 @@ canvas {
     border-color: var(--bg-secondary);
 }
 
-/* Update box shadows for dark mode */
 [data-theme="dark"] .chart-container,
 [data-theme="dark"] .site-item,
 [data-theme="dark"] .setting-item {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Update setting-item styles for theme option */
 .setting-item {
     display: flex;
     justify-content: space-between;
@@ -795,21 +760,18 @@ canvas {
     margin: 8px 0;
 }
 
-/* Remove background for theme setting specifically */
 .setting-item:has(.theme-toggle) {
     background: none;
     border: none;
     padding: 8px 0;
 }
 
-/* Update dark mode hover effects */
 [data-theme="dark"] .site-item:hover {
     border-color: var(--accent-color);
     background: var(--bg-secondary);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
 }
 
-/* Improve settings UI */
 .settings-content section {
     background: var(--bg-secondary);
     border-radius: 16px;
@@ -825,7 +787,6 @@ canvas {
     font-weight: 600;
 }
 
-/* Theme toggle improvements */
 .setting-item:has(.theme-toggle) {
     background: none;
     border: none;
@@ -834,7 +795,6 @@ canvas {
     color: var(--text-primary);
 }
 
-/* Button group improvements */
 .button-group {
     display: flex;
     flex-direction: column;
@@ -848,7 +808,6 @@ canvas {
     transition: all 0.3s ease;
 }
 
-/* Footer improvements */
 .settings-footer {
     margin-top: 32px;
     padding: 24px;
@@ -898,7 +857,6 @@ canvas {
     50% { transform: scale(1.1); }
 }
 
-/* Update settings styles */
 .settings-content section {
     background: none;
     border: none;
@@ -913,7 +871,6 @@ canvas {
     font-weight: 500;
 }
 
-/* Theme toggle section */
 .setting-item:has(.theme-toggle) {
     background: none;
     border: none;
@@ -921,7 +878,6 @@ canvas {
     margin: 0;
 }
 
-/* Data section buttons */
 .button-group {
     display: flex;
     flex-direction: column;
@@ -969,7 +925,6 @@ canvas {
     font-size: 1.1rem;
 }
 
-/* Footer improvements */
 .settings-footer {
     margin-top: auto;
     padding-top: 24px;
@@ -989,7 +944,6 @@ canvas {
     color: var(--text-secondary);
 }
 
-/* Update disabled states */
 .action-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -1009,13 +963,11 @@ canvas {
     box-shadow: none;
 }
 
-/* Remove dark mode shadows */
 [data-theme="dark"] .setting-item,
 [data-theme="dark"] .chart-container {
     box-shadow: none;
 }
 
-/* Update theme toggle styles */
 .setting-item:has(.theme-toggle) {
     background: none;
     border: none;
@@ -1034,7 +986,6 @@ canvas {
     box-shadow: none !important;
 }
 
-/* Update button styles for disabled state */
 .action-button:disabled {
     opacity: 0.5;
     cursor: not-allowed;
@@ -1055,7 +1006,6 @@ canvas {
     box-shadow: none;
 }
 
-/* Remove dark mode shadows */
 [data-theme="dark"] .setting-item,
 [data-theme="dark"] .chart-container {
     box-shadow: none;
@@ -1073,7 +1023,6 @@ canvas {
     color: var(--text-secondary);
 }
 
-/* Add these styles for the sort dropdown */
 .section-header {
     display: flex;
     justify-content: space-between;
@@ -1108,20 +1057,21 @@ canvas {
 
 .sort-menu {
     position: absolute;
-    right: 0;
     top: calc(100% + 4px);
+    right: 0;
     background: var(--bg-primary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 4px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     display: none;
-    z-index: 100;
+    z-index: 1000;
     min-width: 150px;
 }
 
 .sort-menu.show {
     display: block;
+    animation: fadeIn 0.2s ease-out;
 }
 
 .sort-menu button {
@@ -1129,23 +1079,39 @@ canvas {
     width: 100%;
     padding: 8px 12px;
     text-align: left;
+    background: none;
     border: none;
-    background: transparent;
-    color: var(--text-primary);
-    font-size: 14px;
-    cursor: pointer;
     border-radius: 4px;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-size: 0.875rem;
     transition: all 0.2s ease;
 }
 
 .sort-menu button:hover {
     background: var(--bg-secondary);
+    color: var(--accent-color);
 }
 
-.sort-menu button.active {
-    color: var(--accent-color);
-    background: var(--bg-secondary);
+.sort-button:disabled,
+.refresh-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
 }
+
+.sort-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.sort-button:not(:disabled) + .sort-menu.show {
+    cursor: not-allowed;
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+} 
 
 [data-theme="dark"] .sort-menu {
     background: var(--bg-secondary);
@@ -1153,12 +1119,10 @@ canvas {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Add animation for site items */
 .site-item {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Add this for smooth reordering */
 #sitesList {
     display: flex;
     flex-direction: column;
@@ -1182,7 +1146,6 @@ canvas {
     }
 }
 
-/* Add logo styles */
 .header-title {
     display: flex;
     align-items: center;
@@ -1194,7 +1157,6 @@ canvas {
     height: 24px;
 }
 
-/* Show/hide logos based on theme */
 .dark-logo {
     display: none;
 }
@@ -1207,23 +1169,30 @@ canvas {
     display: block;
 }
 
-/* Update chart transitions */
 .chart-container canvas {
     transition: all 0.3s ease-in-out;
 }
 
-/* Add transition for chart segments */
 .chart-segment {
     transition: all 0.3s ease-in-out !important;
 }
 
-/* Update chart-center-text transition */
 .chart-center-text {
     transition: all 0.3s ease-in-out;
 }
 
-/* Ensure smooth color transitions */
 [data-theme="dark"] .chart-container canvas,
 [data-theme="light"] .chart-container canvas {
     transition: background-color 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 } 

@@ -50,6 +50,29 @@ async function loadSettings() {
     const data = await chrome.storage.local.get('visits');
     const hasData = Object.keys(data.visits || {}).length > 0;
     updateDataButtonStates(hasData);
+
+    const importInput = document.getElementById('importInput');
+    const importBtn = document.getElementById('importBtn');
+    
+    importBtn?.addEventListener('click', () => {
+        importInput.click();
+    });
+
+    importInput?.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        importBtn.disabled = true;
+        importBtn.classList.add('loading');
+
+        try {
+            await importData(file);
+        } finally {
+            importBtn.disabled = false;
+            importBtn.classList.remove('loading');
+            importInput.value = ''; // Reset input
+        }
+    });
 }
 
 function updateDataButtonStates(hasData) {
@@ -102,6 +125,10 @@ async function saveSettings() {
 }
 
 async function exportData() {
+    const exportBtn = document.getElementById('exportJsonBtn');
+    exportBtn.disabled = true;
+    exportBtn.classList.add('loading');
+
     try {
         const data = await chrome.storage.local.get('visits');
         const blob = new Blob([JSON.stringify(data.visits || {}, null, 2)], { 
@@ -111,6 +138,9 @@ async function exportData() {
         showNotification('Data exported successfully');
     } catch (error) {
         showNotification('Failed to export data', true);
+    } finally {
+        exportBtn.disabled = false;
+        exportBtn.classList.remove('loading');
     }
 }
 
@@ -126,12 +156,21 @@ function downloadFile(blob, filename) {
 }
 
 async function clearData() {
+    const clearBtn = document.getElementById('clearBtn');
+    
     if (confirm('Are you sure you want to clear all tracking data? This cannot be undone.')) {
+        clearBtn.disabled = true;
+        clearBtn.classList.add('loading');
+        
         try {
             await chrome.storage.local.remove('visits');
             showNotification('All tracking data cleared');
+            updateDataButtonStates(false);
         } catch (error) {
             showNotification('Failed to clear data', true);
+        } finally {
+            clearBtn.disabled = false;
+            clearBtn.classList.remove('loading');
         }
     }
 }
@@ -160,7 +199,7 @@ function showNotification(message, isError = false) {
     setTimeout(() => {
         notification.classList.add('hide');
         setTimeout(() => notification.remove(), 300);
-    }, 2000);
+    }, 5000);
 }
 
 chrome.storage.onChanged.addListener((changes) => {
@@ -175,5 +214,78 @@ function validateMinDuration(input) {
     if (value > 60) value = 60;
     input.value = value;
     return value;
+}
+
+function validateImportedData(data) {
+    try {
+        if (!data || typeof data !== 'object') {
+            throw new Error('Invalid data format: must be an object');
+        }
+
+        for (const [domain, stats] of Object.entries(data)) {
+            try {
+                new URL(`https://${domain}`);
+            } catch {
+                throw new Error(`Invalid domain: ${domain}`);
+            }
+
+            if (typeof stats !== 'object') {
+                throw new Error(`Invalid stats for domain ${domain}: must be an object`);
+            }
+
+            if (typeof stats.count !== 'number' || stats.count < 0) {
+                throw new Error(`Invalid visit count for ${domain}: must be a positive number`);
+            }
+
+            if (typeof stats.totalTimeSpent !== 'number' || stats.totalTimeSpent < 0) {
+                throw new Error(`Invalid time spent for ${domain}: must be a positive number`);
+            }
+
+            if (!stats.lastVisited || isNaN(new Date(stats.lastVisited).getTime())) {
+                throw new Error(`Invalid last visited date for ${domain}`);
+            }
+
+            data[domain] = {
+                count: Math.floor(Math.abs(stats.count)),
+                totalTimeSpent: Math.floor(Math.abs(stats.totalTimeSpent)),
+                lastVisited: new Date(stats.lastVisited).toLocaleString()
+            };
+        }
+
+        return { isValid: true, data };
+    } catch (error) {
+        return { isValid: false, error: error.message };
+    }
+}
+
+async function importData(file) {
+    try {
+        const text = await file.text();
+        const importedData = JSON.parse(text);
+        
+        const { isValid, data, error } = validateImportedData(importedData);
+        
+        if (!isValid) {
+            showNotification(`Import failed: ${error}`, true);
+            return false;
+        }
+
+        const currentData = await chrome.storage.local.get('visits');
+        const visits = currentData.visits || {};
+
+        for (const [domain, stats] of Object.entries(data)) {
+            if (!visits[domain] || visits[domain].totalTimeSpent < stats.totalTimeSpent) {
+                visits[domain] = stats;
+            }
+        }
+
+        await chrome.storage.local.set({ visits });
+        showNotification('Data imported successfully');
+        updateDataButtonStates(true);
+        return true;
+    } catch (error) {
+        showNotification(`Import failed: ${error.message}`, true);
+        return false;
+    }
 }
   

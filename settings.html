@@ -81,14 +81,35 @@
                     <i class="fas fa-database"></i>
                     <h2>Data Management</h2>
                 </div>
-                <div class="data-actions">
-                    <button id="exportJsonBtn" class="btn btn-primary">
-                        <i class="fas fa-file-arrow-down"></i>
-                        Export Data
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Import Data</label>
+                        <span class="setting-description">Import tracking data from a JSON file</span>
+                    </div>
+                    <input type="file" id="importInput" accept=".json" style="display: none;">
+                    <button id="importBtn" class="action-button">
+                        <i class="fas fa-file-import"></i>
+                        Import
                     </button>
-                    <button id="clearBtn" class="btn btn-outline">
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Export Data</label>
+                        <span class="setting-description">Export your tracking data as JSON</span>
+                    </div>
+                    <button id="exportJsonBtn" class="action-button">
+                        <i class="fas fa-file-export"></i>
+                        Export
+                    </button>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Clear Data</label>
+                        <span class="setting-description">Delete all tracking data permanently</span>
+                    </div>
+                    <button id="clearBtn" class="action-button danger">
                         <i class="fas fa-trash"></i>
-                        Clear Data
+                        Clear
                     </button>
                 </div>
             </section>
@@ -99,7 +120,7 @@
                     <h2>About</h2>
                 </div>
                 <div class="about-content">
-                    <p>Version: 1.0.0</p>
+                    <p>Version: 1.1.0</p>
                     <div class="links">
                         <a href="https://github.com/DevJSTAR/TrackMyWeb" target="_blank">
                             <i class="fab fa-github"></i>

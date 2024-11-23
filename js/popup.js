@@ -54,26 +54,27 @@ function initializeUI() {
         sortButton.addEventListener('click', (e) => {
             e.stopPropagation();
             sortMenu.classList.toggle('show');
+            sortButton.classList.toggle('active');
         });
 
-        document.addEventListener('click', () => {
-            sortMenu.classList.remove('show');
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.sort-dropdown')) {
+                sortMenu.classList.remove('show');
+                sortButton.classList.remove('active');
+            }
         });
 
         document.querySelectorAll('.sort-menu button').forEach(button => {
             button.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const sortBy = button.dataset.sort;
-                
-                document.querySelectorAll('.sort-menu button').forEach(b => 
-                    b.classList.remove('active'));
-                button.classList.add('active');
-                
-                const icon = getSortIcon(sortBy);
-                sortButton.innerHTML = `<i class="fas ${icon}"></i>`;
-                
+                const sortBy = e.currentTarget.dataset.sort;
                 loadData(sortBy);
+                
+                document.querySelectorAll('.sort-menu button').forEach(btn => {
+                    btn.classList.toggle('active', btn === e.currentTarget);
+                });
+                
                 sortMenu.classList.remove('show');
+                sortButton.classList.remove('active');
             });
         });
     }
@@ -87,16 +88,15 @@ async function loadData(sortBy = 'time') {
     
     const data = await chrome.storage.local.get('visits');
     const visits = data.visits || {};
+    currentChartData = visits;
     const hasData = Object.keys(visits).length > 0;
     
     if (hasData) {
         hideSkeletonLoading();
         updateChart(visits);
         updateSitesList(visits, sortBy);
-        enableControls();
     } else {
         showEmptyState();
-        disableControls();
     }
     
     setLoading(false);
@@ -113,9 +113,9 @@ function setLoading(loading) {
         sortBtn?.classList.add('disabled');
     } else {
         refreshBtn?.classList.remove('spinning');
+        refreshBtn?.removeAttribute('disabled');
         
-        const hasData = Object.keys(currentChartData || {}).length > 0;
-        if (!hasData) {
+        if (!currentChartData || Object.keys(currentChartData || {}).length === 0) {
             sortBtn?.setAttribute('disabled', 'true');
             sortBtn?.classList.add('disabled');
         } else {

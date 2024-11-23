@@ -37,7 +37,6 @@ body {
     animation: slideIn 0.2s ease-out;
 }
 
-/* Header Styles */
 header {
     margin-bottom: 2.5rem;
     padding-bottom: 1.5rem;
@@ -61,7 +60,6 @@ h1 {
     font-size: 1.1rem;
 }
 
-/* Section Styles */
 .settings-section {
     background: var(--bg-secondary);
     border-radius: 1rem;
@@ -91,7 +89,6 @@ h1 {
     color: var(--text-primary);
 }
 
-/* Setting Items */
 .setting-item {
     padding: 1rem 0;
     border-bottom: 1px solid var(--border-color);
@@ -122,7 +119,6 @@ h1 {
     color: var(--text-secondary);
 }
 
-/* Theme Selector */
 .theme-selector {
     display: flex;
     gap: 8px;
@@ -140,7 +136,6 @@ h1 {
     transition: all 0.2s ease;
 }
 
-/* Light theme button */
 .theme-button[data-theme="light"] {
     background: transparent;
     color: var(--text-primary);
@@ -156,7 +151,6 @@ h1 {
     border-color: #94a3b8;
 }
 
-/* Dark theme button */
 .theme-button[data-theme="dark"] {
     background: #000000;
     color: #ffffff;
@@ -172,7 +166,6 @@ h1 {
     border-color: #52525b;
 }
 
-/* Dark mode adjustments */
 body[data-theme="dark"] .theme-button[data-theme="light"] {
     background: transparent;
     color: var(--text-primary);
@@ -187,7 +180,6 @@ body[data-theme="dark"] .theme-button[data-theme="light"].active {
     border-color: #71717a;
 }
 
-/* Updated dark button in dark mode */
 body[data-theme="dark"] .theme-button[data-theme="dark"] {
     background: #27272a;
     color: #ffffff;
@@ -198,12 +190,10 @@ body[data-theme="dark"] .theme-button[data-theme="dark"]:hover {
     background: #3f3f46;
 }
 
-/* Theme icons */
 .theme-button i {
     font-size: 14px;
 }
 
-/* Toggle Switch */
 .toggle {
     position: relative;
     display: inline-block;
@@ -249,7 +239,6 @@ input:checked + .toggle-slider:before {
     transform: translateX(24px);
 }
 
-/* Number Input */
 .number-input {
     display: flex;
     align-items: center;
@@ -270,55 +259,10 @@ input:checked + .toggle-slider:before {
     color: var(--text-secondary);
 }
 
-/* Data Actions */
 .data-actions {
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-}
-
-.export-buttons, .danger-zone {
     display: none;
 }
 
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.btn-primary {
-    background: var(--accent-color);
-    color: white;
-    border: none;
-}
-
-.btn-primary:hover {
-    background: var(--accent-hover);
-    transform: translateY(-1px);
-}
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid var(--border-color);
-    color: var(--danger-color);
-}
-
-.btn-outline:hover {
-    background: var(--danger-color);
-    color: white;
-    border-color: var(--danger-color);
-    transform: translateY(-1px);
-}
-
-/* About Section */
 .about-section {
     text-align: center;
 }
@@ -347,7 +291,6 @@ input:checked + .toggle-slider:before {
     color: var(--text-primary);
 }
 
-/* Save Confirmation */
 .save-confirmation {
     position: fixed;
     top: 1.5rem;
@@ -358,17 +301,19 @@ input:checked + .toggle-slider:before {
     border-radius: 0.75rem;
     opacity: 0;
     transform: translateX(100%);
-    transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: 0.875rem;
     font-weight: 500;
     box-shadow: 0 4px 12px rgba(34, 197, 94, 0.2);
+    z-index: 1000;
 }
 
 .save-confirmation.error {
     background: var(--danger-color);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
 }
 
 .save-confirmation.show {
@@ -378,14 +323,34 @@ input:checked + .toggle-slider:before {
 
 .save-confirmation.hide {
     opacity: 0;
-    transform: translateX(100%) scale(0.95);
+    transform: translateX(100%);
+    transition: all 0.3s cubic-bezier(0.32, 0, 0.67, 0);
 }
 
 [data-theme="dark"] .save-confirmation {
-    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.15);
 }
 
-/* Add styles to prevent spinner buttons in number input */
+[data-theme="dark"] .save-confirmation.error {
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15);
+}
+
+.save-confirmation i {
+    animation: notificationIconScale 0.2s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+@keyframes notificationIconScale {
+    0% {
+        transform: scale(0.5);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 .number-input input[type="number"]::-webkit-inner-spin-button,
 .number-input input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -396,12 +361,10 @@ input:checked + .toggle-slider:before {
     -moz-appearance: textfield;
 }
 
-/* Add invalid state styling */
 .number-input input:invalid {
     border-color: var(--danger-color);
 }
 
-/* Add these animation styles */
 @keyframes slideIn {
     from {
         opacity: 0;
@@ -413,7 +376,6 @@ input:checked + .toggle-slider:before {
     }
 }
 
-/* Add animation to main sections */
 .container {
     animation: slideIn 0.2s ease-out;
 }
@@ -423,7 +385,6 @@ input:checked + .toggle-slider:before {
     animation: slideIn 0.2s ease-out forwards;
 }
 
-/* Stagger the animations for each section */
 .settings-section:nth-child(1) {
     animation-delay: 0.05s;
 }
@@ -440,7 +401,6 @@ input:checked + .toggle-slider:before {
     animation-delay: 0.2s;
 }
 
-/* Add smooth transitions for interactive elements */
 .theme-button,
 .toggle,
 .number-input input,
@@ -448,7 +408,6 @@ input:checked + .toggle-slider:before {
     transition: all 0.2s ease;
 }
 
-/* Add or update the made-by styles */
 .made-by {
     margin-top: 1rem;
     color: var(--text-secondary);
@@ -478,7 +437,6 @@ input:checked + .toggle-slider:before {
     50% { transform: scale(1.1); }
 }
 
-/* Add logo styles */
 .header-title {
     display: flex;
     align-items: center;
@@ -490,7 +448,6 @@ input:checked + .toggle-slider:before {
     height: 32px;
 }
 
-/* Show/hide logos based on theme */
 .dark-logo {
     display: none;
 }
@@ -503,13 +460,11 @@ input:checked + .toggle-slider:before {
     display: block;
 }
 
-/* This ensures white hover in dark mode */
 [data-theme="dark"] .links a:hover,
 [data-theme="dark"] .made-by a:hover {
     color: white;
 }
 
-/* Add disabled state styles */
 .btn.disabled,
 .btn:disabled {
     opacity: 0.5;
@@ -521,4 +476,97 @@ input:checked + .toggle-slider:before {
 .btn:disabled:hover {
     transform: none;
     box-shadow: none;
+}
+
+.action-button.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.action-button.loading::after {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: button-loading 0.8s linear infinite;
+    margin-left: 0.5rem;
+}
+
+@keyframes button-loading {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.action-button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.action-button:hover:not(:disabled) {
+    background: var(--bg-secondary);
+    transform: translateY(-1px);
+}
+
+.action-button.danger {
+    color: var(--danger-color);
+}
+
+.action-button.danger:hover:not(:disabled) {
+    background: var(--danger-color);
+    color: white;
+    border-color: var(--danger-color);
+}
+
+.action-button:disabled,
+.action-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.action-button i {
+    font-size: 1rem;
+}
+
+.action-button.loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.action-button.loading::after {
+    content: '';
+    position: absolute;
+    width: 1em;
+    height: 1em;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: button-loading 0.8s linear infinite;
+    margin-left: 0.5rem;
+}
+
+.data-actions {
+    display: none;
+}
+
+.btn,
+.btn-primary,
+.btn-outline {
+    display: none;
 } 

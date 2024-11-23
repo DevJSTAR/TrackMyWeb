@@ -30,20 +30,21 @@ chrome.storage.onChanged.addListener((changes) => {
 });
 
 chrome.tabs.onActivated.addListener(async (activeInfo) => {
+    const previousActiveTab = currentActiveTab;
     currentActiveTab = activeInfo.tabId;
     const tab = await chrome.tabs.get(activeInfo.tabId);
     
-    Object.entries(activeTabData).forEach(([tabId, data]) => {
-        if (tabId !== currentActiveTab.toString()) {
-            data.isTracking = settings.trackInactive;
-            if (!settings.trackInactive) {
-                const timeSpent = Math.floor((Date.now() - data.lastTrackTime) / 1000);
-                if (timeSpent > 0) {
-                    updateSiteData(data.domain, 'time', timeSpent);
-                }
+    if (previousActiveTab && activeTabData[previousActiveTab]) {
+        const data = activeTabData[previousActiveTab];
+        if (!settings.trackInactive) {
+            const timeSpent = Math.floor((Date.now() - data.lastTrackTime) / 1000);
+            if (timeSpent > 0) {
+                await updateSiteData(data.domain, 'time', timeSpent);
+                data.lastTrackTime = Date.now();
             }
         }
-    });
+        data.isTracking = settings.trackInactive;
+    }
 
     if (tab.url && shouldTrackUrl(tab.url)) {
         try {
@@ -143,18 +144,17 @@ async function updateSiteData(domain, type, timeSpent = 0) {
 
         if (!visits[domain]) {
             visits[domain] = {
-                count: 1,
+                count: 0,
                 totalTimeSpent: 0,
                 lastVisited: new Date().toLocaleString()
             };
-        } else if (visits[domain].count === 0) {
-            visits[domain].count = 1;
         }
 
         if (type === 'count') {
-            visits[domain].count++;
+            visits[domain].count += 1;
         } else if (type === 'time' && timeSpent > 0) {
-            visits[domain].totalTimeSpent += timeSpent;
+            const validTimeSpent = Math.min(timeSpent, 2);
+            visits[domain].totalTimeSpent += validTimeSpent;
         }
 
         visits[domain].lastVisited = new Date().toLocaleString();
