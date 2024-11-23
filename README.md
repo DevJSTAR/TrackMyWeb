@@ -48,7 +48,7 @@
 
 ## Installation
 
-1. Download the latest release from the [releases page](https://github.com/DevJSTAR/TrackMyWeb/releases)
+1. Download the [Latest release](https://github.com/DevJSTAR/TrackMyWeb/releases/latest)
 2. Open Chrome and navigate to `chrome://extensions/`
 3. Enable "Developer mode" in the top right
 4. Click "Load unpacked" and select the downloaded folder
@@ -79,7 +79,7 @@
 Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the [MIT License](https://github.com/DevJSTAR/TrackMyWeb/blob/main/LICENSE).
 
 ## Author
 Made with ❤️ by [JSTAR](https://linktr.ee/jstarsdev)
