@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>TrackMyWeb</title>
+    <link rel="stylesheet" href="css/popup.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="lib/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Main View -->
+        <div id="mainView" class="view">
+            <header>
+                <div class="header-title">
+                    <img src="icons/logo128.png" alt="Logo" class="logo light-logo">
+                    <img src="icons/logo128white.png" alt="Logo" class="logo dark-logo">
+                    <h1>TrackMyWeb</h1>
+                </div>
+                <button id="settingsBtn" class="icon-button">
+                    <i class="fas fa-gear"></i>
+                </button>
+            </header>
+
+            <div class="chart-container">
+                <canvas id="mainChart"></canvas>
+            </div>
+
+            <div class="sites-section">
+                <div class="section-header">
+                    <h2>Overview</h2>
+                    <div class="sort-dropdown">
+                        <button class="sort-button" title="Sort by">
+                            <i class="fas fa-sort"></i>
+                        </button>
+                        <div class="sort-menu">
+                            <button data-sort="time">Time spent</button>
+                            <button data-sort="visits">Most visits</button>
+                            <button data-sort="recent">Recently visited</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="sitesList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/popup.js"></script>
+</body>
+</html> 

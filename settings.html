@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Settings • TrackMyWeb</title>
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Settings</h1>
+                <p class="subtitle">Customize your TrackMyWeb experience</p>
+            </div>
+        </header>
+
+        <main>
+            <section class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-palette"></i>
+                    <h2>Appearance</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Theme</label>
+                        <span class="setting-description">Choose your preferred theme</span>
+                    </div>
+                    <div class="theme-selector">
+                        <button class="theme-button" data-theme="light">
+                            <i class="fas fa-sun"></i>
+                            Light
+                        </button>
+                        <button class="theme-button" data-theme="dark">
+                            <i class="fas fa-moon"></i>
+                            Dark
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-chart-line"></i>
+                    <h2>Tracking</h2>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Show seconds in time display</label>
+                        <span class="setting-description">Display seconds alongside hours and minutes</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="showSeconds">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Minimum tracking duration</label>
+                        <span class="setting-description">Minimum time before tracking begins (1-60 seconds)</span>
+                    </div>
+                    <div class="number-input">
+                        <input type="number" id="minDuration" min="1" max="60" value="1">
+                        <span class="unit">seconds</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <label>Track inactive tabs</label>
+                        <span class="setting-description">Continue tracking time when tabs are not active</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="trackInactive">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </section>
+
+            <section class="settings-section">
+                <div class="section-header">
+                    <i class="fas fa-database"></i>
+                    <h2>Data Management</h2>
+                </div>
+                <div class="data-actions">
+                    <button id="exportJsonBtn" class="btn btn-primary">
+                        <i class="fas fa-file-arrow-down"></i>
+                        Export Data
+                    </button>
+                    <button id="clearBtn" class="btn btn-outline">
+                        <i class="fas fa-trash"></i>
+                        Clear Data
+                    </button>
+                </div>
+            </section>
+
+            <section class="settings-section about-section">
+                <div class="section-header">
+                    <i class="fas fa-info-circle"></i>
+                    <h2>About</h2>
+                </div>
+                <div class="about-content">
+                    <p>Version: 1.0.0</p>
+                    <div class="links">
+                        <a href="https://github.com/DevJSTAR/TrackMyWeb" target="_blank">
+                            <i class="fab fa-github"></i>
+                            Homepage
+                        </a>
+                        <a href="https://github.com/DevJSTAR/TrackMyWeb/blob/main/LICENSE" target="_blank">
+                            <i class="fas fa-scale-balanced"></i>
+                            License
+                        </a>
+                        <a href="https://github.com/DevJSTAR/TrackMyWeb/releases/latest" target="_blank">
+                            <i class="fas fa-arrow-up-right-dots"></i>
+                            Check for Updates
+                        </a>
+                    </div>
+                    <p class="made-by">
+                        Made with <i class="fas fa-heart"></i> by <a href="https://linktr.ee/jstarsdev" target="_blank">JSTAR</a>
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="js/settings.js"></script>
+</body>
+</html> 

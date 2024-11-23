@@ -1,0 +1,1229 @@
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    --danger-color: #ef4444;
+    --border-color: #e2e8f0;
+    --chip-bg: #f1f5f9;
+    --success-color: #22c55e;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #121212;
+    --bg-secondary: #1e1e1e;
+    --text-primary: #e0e0e0;
+    --text-secondary: #a0a0a0;
+    --accent-color: #60a5fa;
+    --accent-hover: #3b82f6;
+    --danger-color: #ef4444;
+    --border-color: #2a2a2a;
+    --chip-bg: #1e1e1e;
+    --success-color: #4ade80;
+}
+
+body {
+    width: 380px;
+    height: 600px;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    border-radius: 0;
+}
+
+.view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.3s ease;
+    padding: 16px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.hidden {
+    transform: translateX(100%);
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+h2 {
+    margin: 0 0 12px 0;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+.chart-container {
+    height: 260px;
+    margin: 16px 0;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.chart-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.chip {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 12px;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.9rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+.chip:hover {
+    transform: translateY(-2px);
+    background: var(--accent-color);
+    border-color: var(--accent-hover);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.chip.active {
+    background: var(--accent-color);
+    border-color: var(--accent-hover);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.icon-button {
+    background: none;
+    border: none;
+    color: var(--text-primary);
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+}
+
+.icon-button:hover {
+    background: var(--chip-bg);
+}
+
+#sitesList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-bottom: 8px;
+}
+
+.site-item {
+    padding: 10px;
+    margin: 0;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+.site-item:hover {
+    border-color: var(--accent-color);
+    background: var(--bg-secondary);
+}
+
+.site-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.domain-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid var(--bg-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.domain {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+.visit-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.percentage {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.time {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Center text in pie chart */
+.chart-center-text {
+    position: absolute;
+    text-align: left;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    background: var(--bg-primary);
+    padding: 8px 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    pointer-events: none; /* Prevent tooltip from interfering with hover */
+    z-index: 1000;
+}
+
+.chart-center-text .percentage {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.chart-center-text .domain {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+}
+
+.chart-center-text .time {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+}
+
+/* Settings specific styles */
+.settings-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    height: calc(100% - 80px);
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-right: -8px;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    margin: 8px 0;
+}
+
+.action-button {
+    background: var(--accent-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 12px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.action-button:hover {
+    background: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+
+.action-button.danger {
+    background: var(--danger-color);
+}
+
+.action-button.danger:hover {
+    background: #dc2626;
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* Add these styles for the switch toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 22px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border-color);
+    transition: .4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--accent-color);
+}
+
+input:checked + .slider:before {
+    transform: translateX(22px);
+}
+
+.domain-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.visit-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.domain {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+}
+
+/* Add these styles for scrolling and custom scrollbar */
+.sites-section {
+    height: calc(100% - 360px);
+    overflow-y: auto;
+    padding-right: 4px;
+    margin-right: -4px;
+    padding-bottom: 16px;
+}
+
+/* Custom scrollbar styles */
+.sites-section::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sites-section::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.sites-section::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+    border: none;
+}
+
+.sites-section::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Settings view scrolling */
+.settings-content {
+    height: calc(100% - 80px);
+    overflow-y: auto;
+    padding-right: 8px;
+    margin-right: -8px;
+}
+
+.settings-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.settings-content::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+    border-radius: 10px;
+}
+
+.settings-content::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+    border: 2px solid var(--bg-primary);
+}
+
+.settings-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Update site-item spacing */
+.site-item {
+    padding: 10px;  /* Reduced padding */
+    margin: 0;      /* Remove margin */
+    border-radius: 12px;
+}
+
+/* Update sites list spacing */
+#sitesList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;  /* Default gap */
+}
+
+/* Remove gap when there's only one item */
+#sitesList:has(> :only-child) {
+    gap: 0;
+}
+
+/* Add transition for chart segments */
+.chart-segment {
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* Update chart spacing for single segment */
+.chart-container {
+    /* ... existing styles ... */
+}
+
+/* Update dataset configuration for single segment */
+.chart-segment:only-child {
+    spacing: 0;
+}
+
+/* Add transition for chart segments */
+canvas {
+    transition: none;
+}
+
+/* Update chart-center-text transition */
+.chart-center-text {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Add transition for background colors in chart segments */
+.chart-segment {
+    transition: background-color 0.3s ease-in-out;
+}
+
+/* Add refresh button styles */
+.refresh-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    z-index: 10;
+}
+
+.refresh-button:hover {
+    background: var(--bg-secondary);
+}
+
+.refresh-button i {
+    color: var(--text-secondary);
+    font-size: 16px;
+    transition: transform 0.5s ease;
+}
+
+.refresh-button.spinning i {
+    transform: rotate(360deg);
+}
+
+/* Update skeleton loading styles */
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.skeleton {
+    background: linear-gradient(
+        90deg,
+        var(--bg-secondary) 0%,
+        var(--border-color) 15%,
+        var(--bg-secondary) 30%,
+        var(--bg-secondary) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 2s ease-in-out infinite;
+    border-radius: 16px;
+}
+
+.skeleton-chart {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    margin: 0;
+    padding: 0;
+}
+
+.skeleton-item {
+    height: 72px;
+    margin: 8px 0;
+    opacity: 0.7; /* Make items slightly transparent */
+}
+
+/* Disabled button states */
+.action-button:disabled,
+.refresh-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.refresh-button.loading {
+    opacity: 0.5;
+    cursor: wait;
+}
+
+/* Add styles for empty state */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--text-secondary);
+    text-align: center;
+}
+
+.empty-state i {
+    font-size: 24px;
+    margin-bottom: 12px;
+    opacity: 0.7;
+}
+
+.empty-state p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Modal styles */
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.modal.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-content {
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    background: var(--bg-primary);
+    transform: translateY(20px);
+    transition: transform 0.3s ease;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+/* Add styles for the settings header */
+.modal header {
+    padding: 0 0 16px 0;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* Update settings content styles */
+.settings-content {
+    height: calc(100% - 80px);
+    overflow-y: auto;
+}
+
+/* Settings styles */
+.settings-content {
+    padding: 0;
+}
+
+.settings-content section {
+    margin-bottom: 24px;
+}
+
+.settings-content h2 {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+    font-weight: 600;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    margin: 8px 0;
+    border: 1px solid var(--border-color);
+}
+
+/* Update settings footer styles */
+.settings-footer {
+    margin-top: auto;
+    padding: 20px 0;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.8;
+}
+
+.extension-name {
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.extension-links {
+    margin-bottom: 12px;
+}
+
+.extension-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.extension-links a:hover {
+    text-decoration: underline;
+}
+
+.made-by {
+    margin-top: 8px;
+    font-size: 0.85rem;
+}
+
+.made-by .fa-heart {
+    color: #ff4b4b;
+    margin: 0 4px;
+}
+
+.made-by a {
+    color: var(--text-secondary);
+    text-decoration: none;
+}
+
+.made-by a:hover {
+    text-decoration: underline;
+}
+
+/* Remove old styles */
+.links, .made-by {
+    display: none;
+}
+
+/* Update theme toggle styles */
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.theme-toggle:hover {
+    color: var(--text-primary);
+}
+
+.theme-toggle i {
+    font-size: 1.2rem;
+}
+
+/* Show/hide icons based on theme */
+.light-icon {
+    display: none;
+}
+
+.dark-icon {
+    display: inline-block;
+}
+
+[data-theme="dark"] .light-icon {
+    display: inline-block;
+}
+
+[data-theme="dark"] .dark-icon {
+    display: none;
+}
+
+/* Fix icon display */
+.theme-toggle .light-icon {
+    display: none;
+}
+
+.theme-toggle .dark-icon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .light-icon {
+    display: block;
+}
+
+[data-theme="dark"] .theme-toggle .dark-icon {
+    display: none;
+}
+
+/* Update border colors for dark mode */
+[data-theme="dark"] .site-item,
+[data-theme="dark"] .setting-item,
+[data-theme="dark"] .chart-container,
+[data-theme="dark"] .chart-center-text {
+    border-color: var(--bg-secondary);
+}
+
+/* Update box shadows for dark mode */
+[data-theme="dark"] .chart-container,
+[data-theme="dark"] .site-item,
+[data-theme="dark"] .setting-item {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Update setting-item styles for theme option */
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    border-radius: 12px;
+    margin: 8px 0;
+}
+
+/* Remove background for theme setting specifically */
+.setting-item:has(.theme-toggle) {
+    background: none;
+    border: none;
+    padding: 8px 0;
+}
+
+/* Update dark mode hover effects */
+[data-theme="dark"] .site-item:hover {
+    border-color: var(--accent-color);
+    background: var(--bg-secondary);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+/* Improve settings UI */
+.settings-content section {
+    background: var(--bg-secondary);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 24px;
+    border: 1px solid var(--border-color);
+}
+
+.settings-content h2 {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+/* Theme toggle improvements */
+.setting-item:has(.theme-toggle) {
+    background: none;
+    border: none;
+    padding: 12px 0;
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+/* Button group improvements */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.action-button {
+    padding: 16px;
+    font-size: 1rem;
+    border-radius: 14px;
+    transition: all 0.3s ease;
+}
+
+/* Footer improvements */
+.settings-footer {
+    margin-top: 32px;
+    padding: 24px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    line-height: 2;
+}
+
+.extension-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+.extension-links {
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+.extension-links a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.extension-links a:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.made-by {
+    display: block !important;
+    margin-top: 16px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.made-by .fa-heart {
+    color: #ff4b4b;
+    margin: 0 4px;
+    animation: heartbeat 1.5s ease infinite;
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Update settings styles */
+.settings-content section {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-bottom: 32px;
+}
+
+.settings-content h2 {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+    font-weight: 500;
+}
+
+/* Theme toggle section */
+.setting-item:has(.theme-toggle) {
+    background: none;
+    border: none;
+    padding: 8px 0;
+    margin: 0;
+}
+
+/* Data section buttons */
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.action-button {
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    border: none;
+}
+
+.action-button:not(.danger) {
+    background: var(--accent-color);
+    color: white;
+}
+
+.action-button:not(.danger):hover {
+    background: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.action-button.danger {
+    background: transparent;
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+}
+
+.action-button.danger:hover {
+    background: var(--danger-color);
+    color: white;
+    transform: translateY(-1px);
+}
+
+.action-button i {
+    font-size: 1.1rem;
+}
+
+/* Footer improvements */
+.settings-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    line-height: 1.8;
+}
+
+.extension-name {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.extension-links {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Update disabled states */
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.action-button:disabled:hover {
+    background: var(--accent-color);
+    transform: none;
+    box-shadow: none;
+}
+
+.action-button.danger:disabled:hover {
+    background: transparent;
+    color: var(--danger-color);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Remove dark mode shadows */
+[data-theme="dark"] .setting-item,
+[data-theme="dark"] .chart-container {
+    box-shadow: none;
+}
+
+/* Update theme toggle styles */
+.setting-item:has(.theme-toggle) {
+    background: none;
+    border: none;
+    padding: 8px 0;
+    margin: 0;
+    box-shadow: none !important;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+    box-shadow: none !important;
+}
+
+/* Update button styles for disabled state */
+.action-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    transform: none !important;
+}
+
+.action-button:disabled:hover {
+    background: var(--accent-color);
+    transform: none;
+    box-shadow: none;
+}
+
+.action-button.danger:disabled:hover {
+    background: transparent;
+    color: var(--danger-color);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Remove dark mode shadows */
+[data-theme="dark"] .setting-item,
+[data-theme="dark"] .chart-container {
+    box-shadow: none;
+}
+
+.others-details {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.8rem;
+}
+
+.other-site {
+    margin: 4px 0;
+    color: var(--text-secondary);
+}
+
+/* Add these styles for the sort dropdown */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.sort-dropdown {
+    position: relative;
+}
+
+.sort-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.sort-button:hover {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.sort-menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + 4px);
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 100;
+    min-width: 150px;
+}
+
+.sort-menu.show {
+    display: block;
+}
+
+.sort-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    text-align: left;
+    border: none;
+    background: transparent;
+    color: var(--text-primary);
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.sort-menu button:hover {
+    background: var(--bg-secondary);
+}
+
+.sort-menu button.active {
+    color: var(--accent-color);
+    background: var(--bg-secondary);
+}
+
+[data-theme="dark"] .sort-menu {
+    background: var(--bg-secondary);
+    border-color: var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Add animation for site items */
+.site-item {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Add this for smooth reordering */
+#sitesList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.site-item {
+    transform-origin: center;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add logo styles */
+.header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    width: 24px;
+    height: 24px;
+}
+
+/* Show/hide logos based on theme */
+.dark-logo {
+    display: none;
+}
+
+[data-theme="dark"] .light-logo {
+    display: none;
+}
+
+[data-theme="dark"] .dark-logo {
+    display: block;
+}
+
+/* Update chart transitions */
+.chart-container canvas {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Add transition for chart segments */
+.chart-segment {
+    transition: all 0.3s ease-in-out !important;
+}
+
+/* Update chart-center-text transition */
+.chart-center-text {
+    transition: all 0.3s ease-in-out;
+}
+
+/* Ensure smooth color transitions */
+[data-theme="dark"] .chart-container canvas,
+[data-theme="light"] .chart-container canvas {
+    transition: background-color 0.3s ease-in-out;
+} 
