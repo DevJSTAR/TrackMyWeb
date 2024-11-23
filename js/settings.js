@@ -1,14 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Load saved settings
     loadSettings();
     
-    // Add event listeners for theme buttons
     document.querySelectorAll('.theme-button').forEach(button => {
         button.addEventListener('click', () => {
             const newTheme = button.dataset.theme;
             const currentTheme = document.body.getAttribute('data-theme');
             
-            // Only update if theme is actually changing
             if (newTheme !== currentTheme) {
                 updateTheme(newTheme);
                 showNotification(`Theme changed to ${newTheme} mode`);
@@ -17,15 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Add event listeners for other settings
     document.getElementById('showSeconds').addEventListener('change', saveSettings);
     document.getElementById('minDuration').addEventListener('change', saveSettings);
     
-    // Update data management button listeners
     document.getElementById('exportJsonBtn').addEventListener('click', () => exportData());
     document.getElementById('clearBtn').addEventListener('click', clearData);
 
-    // Add validation for minDuration input
     const minDurationInput = document.getElementById('minDuration');
     minDurationInput.addEventListener('input', () => {
         validateMinDuration(minDurationInput);
@@ -36,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveSettings();
     });
 
-    // Add event listener for trackInactive toggle
     document.getElementById('trackInactive').addEventListener('change', saveSettings);
 });
 
@@ -48,15 +41,12 @@ async function loadSettings() {
         trackInactive: false
     });
 
-    // Apply theme
     updateTheme(settings.theme);
     
-    // Set other settings
     document.getElementById('showSeconds').checked = settings.showSeconds;
     document.getElementById('minDuration').value = settings.minDuration;
     document.getElementById('trackInactive').checked = settings.trackInactive;
 
-    // Check if we have data and update button states
     const data = await chrome.storage.local.get('visits');
     const hasData = Object.keys(data.visits || {}).length > 0;
     updateDataButtonStates(hasData);
@@ -80,12 +70,10 @@ function updateDataButtonStates(hasData) {
 }
 
 function updateTheme(theme) {
-    // Update theme buttons
     document.querySelectorAll('.theme-button').forEach(button => {
         button.classList.toggle('active', button.dataset.theme === theme);
     });
 
-    // Apply theme to body
     document.body.setAttribute('data-theme', theme);
 }
 
@@ -100,7 +88,6 @@ async function saveSettings() {
 
         await chrome.storage.local.set(newSettings);
         
-        // Only show notifications for non-theme changes
         const activeElement = document.activeElement;
         if (activeElement?.id === 'showSeconds') {
             showNotification(`Time display ${newSettings.showSeconds ? 'will now' : 'will no longer'} show seconds`);
@@ -176,14 +163,12 @@ function showNotification(message, isError = false) {
     }, 2000);
 }
 
-// Apply theme to popup when it changes
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.theme) {
         updateTheme(changes.theme.newValue);
     }
 });
 
-// Add this function to validate the minimum duration input
 function validateMinDuration(input) {
     let value = parseInt(input.value);
     if (value < 1) value = 1;

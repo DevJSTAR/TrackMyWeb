@@ -11,34 +11,28 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function initializeUI() {
-    // Set up chart type selector
     document.querySelectorAll('.chip').forEach(button => {
         button.addEventListener('click', (e) => {
             const chartType = e.currentTarget.dataset.chart;
             switchChart(chartType);
             
-            // Update active state
             document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
             e.currentTarget.classList.add('active');
         });
     });
 
-    // Set up settings button to open options page
     document.getElementById('settingsBtn').addEventListener('click', () => {
         chrome.runtime.openOptionsPage();
     });
 
-    // Add refresh button
     const refreshBtn = document.createElement('button');
     refreshBtn.className = 'refresh-button';
     refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
     document.querySelector('.chart-container').appendChild(refreshBtn);
 
     refreshBtn.addEventListener('click', async () => {
-        // Add spinning animation
         refreshBtn.classList.add('spinning');
         
-        // Disable button during refresh
         refreshBtn.disabled = true;
 
         try {
@@ -47,14 +41,12 @@ function initializeUI() {
             console.error('Error refreshing data:', error);
         }
 
-        // Remove spinning animation after a minimum duration
         setTimeout(() => {
             refreshBtn.classList.remove('spinning');
             refreshBtn.disabled = false;
         }, 500);
     });
 
-    // Add sort dropdown functionality
     const sortButton = document.querySelector('.sort-button');
     const sortMenu = document.querySelector('.sort-menu');
     
@@ -64,27 +56,22 @@ function initializeUI() {
             sortMenu.classList.toggle('show');
         });
 
-        // Close sort menu when clicking outside
         document.addEventListener('click', () => {
             sortMenu.classList.remove('show');
         });
 
-        // Handle sort selection
         document.querySelectorAll('.sort-menu button').forEach(button => {
             button.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const sortBy = button.dataset.sort;
                 
-                // Update active state
                 document.querySelectorAll('.sort-menu button').forEach(b => 
                     b.classList.remove('active'));
                 button.classList.add('active');
                 
-                // Update sort button icon based on sort type
                 const icon = getSortIcon(sortBy);
                 sortButton.innerHTML = `<i class="fas ${icon}"></i>`;
                 
-                // Reload data with new sort
                 loadData(sortBy);
                 sortMenu.classList.remove('show');
             });
@@ -95,7 +82,6 @@ function initializeUI() {
 async function loadData(sortBy = 'time') {
     setLoading(true);
     
-    // Load theme
     const { theme } = await chrome.storage.local.get({ theme: 'light' });
     document.body.setAttribute('data-theme', theme);
     
@@ -128,7 +114,6 @@ function setLoading(loading) {
     } else {
         refreshBtn?.classList.remove('spinning');
         
-        // Only enable sort button if we have data
         const hasData = Object.keys(currentChartData || {}).length > 0;
         if (!hasData) {
             sortBtn?.setAttribute('disabled', 'true');
@@ -145,11 +130,9 @@ function showEmptyState() {
     const canvas = document.getElementById('mainChart');
     canvas.style.display = 'none';
     
-    // Remove any existing empty state
     const existingEmpty = chartContainer.querySelector('.empty-state');
     if (existingEmpty) existingEmpty.remove();
     
-    // Add empty state message
     const emptyState = document.createElement('div');
     emptyState.className = 'empty-state';
     emptyState.innerHTML = `
@@ -158,7 +141,6 @@ function showEmptyState() {
     `;
     chartContainer.appendChild(emptyState);
     
-    // Show empty state in overview section
     const sitesList = document.getElementById('sitesList');
     sitesList.innerHTML = `
         <div class="empty-state">
@@ -200,7 +182,7 @@ function hideSkeletonLoading() {
     if (skeletonChart) {
         skeletonChart.remove();
     }
-    chartContainer.style.padding = '20px'; // Restore padding
+    chartContainer.style.padding = '20px';
     canvas.style.display = 'block';
     
     const sitesList = document.getElementById('sitesList');
@@ -252,7 +234,6 @@ function updateChart(visits) {
     const chartData = processDataForChart(visits, currentChartType);
     currentChart = new Chart(ctx, chartData);
 
-    // Add center text container if it doesn't exist
     if (!document.querySelector('.chart-center-text')) {
         const centerText = document.createElement('div');
         centerText.className = 'chart-center-text';
@@ -277,15 +258,12 @@ function processDataForChart(visits, type = 'doughnut') {
         groupedVisits[cleanedDomain].totalTimeSpent += data.totalTimeSpent;
     });
 
-    // Sort all sites by time spent
     const sortedSites = Object.entries(groupedVisits)
         .sort(([,a], [,b]) => b.totalTimeSpent - a.totalTimeSpent);
 
-    // Take top 6 sites and group the rest into "Others"
     const topSites = sortedSites.slice(0, 6);
     const otherSites = sortedSites.slice(6);
 
-    // Calculate total time for "Others"
     const othersTotal = otherSites.reduce((sum, [,data]) => sum + data.totalTimeSpent, 0);
     
     if (othersTotal > 0) {
@@ -299,7 +277,7 @@ function processDataForChart(visits, type = 'doughnut') {
             totalTimeSpent: othersTotal,
             lastVisited: new Date().toLocaleString(),
             fullUrl: `${otherSites.length} other sites`,
-            details: otherSitesDetails  // Add details for tooltip
+            details: otherSitesDetails
         }]);
     }
 
@@ -308,17 +286,14 @@ function processDataForChart(visits, type = 'doughnut') {
     const total = data.reduce((a, b) => a + b, 0);
     const percentages = data.map(time => ((time / total) * 100).toFixed(2));
     
-    // Generate colors with grey for "Others"
-    const colors = generateColors(labels.length - (othersTotal > 0 ? 1 : 0));  // Generate colors for all except "Others"
+    const colors = generateColors(labels.length - (othersTotal > 0 ? 1 : 0));
     if (othersTotal > 0) {
-        colors.push('#94a3b8');  // Add grey for "Others"
+        colors.push('#94a3b8');
     }
 
-    // Store colors and full URLs for site list
     window.siteColors = Object.fromEntries(labels.map((domain, i) => [domain, colors[i]]));
     window.fullUrls = Object.fromEntries(topSites.map(([domain, data]) => [domain, data.fullUrl]));
 
-    // Get the computed background color of the chart container
     const chartContainer = document.querySelector('.chart-container');
     const containerBgColor = getComputedStyle(chartContainer).backgroundColor;
 
@@ -344,7 +319,7 @@ function processDataForChart(visits, type = 'doughnut') {
             maintainAspectRatio: false,
             cutout: '65%',
             animation: {
-                duration: 300,  // Match CSS transition duration
+                duration: 300,
                 easing: 'easeInOutQuad'
             },
             transitions: {
@@ -381,9 +356,8 @@ function processDataForChart(visits, type = 'doughnut') {
                         i === idx ? color : color + '40'
                     );
                     
-                    // Apply transition to color changes
                     currentChart.data.datasets[0].backgroundColor = fadedColors;
-                    currentChart.update('active');  // Use 'active' mode for smooth transitions
+                    currentChart.update('active');
 
                     const domain = labels[idx];
                     const percentage = percentages[idx];
@@ -396,7 +370,6 @@ function processDataForChart(visits, type = 'doughnut') {
                         <div class="time">${time}</div>
                     `;
 
-                    // Add details for Others group
                     if (domain === 'Others' && data.details) {
                         tooltipContent += `<div class="others-details">`;
                         for (const site of data.details) {
@@ -409,17 +382,14 @@ function processDataForChart(visits, type = 'doughnut') {
                     centerText.innerHTML = tooltipContent;
                     centerText.style.opacity = '1';
                     
-                    // Position tooltip
                     const chartContainer = document.querySelector('.chart-container');
                     const containerRect = chartContainer.getBoundingClientRect();
                     const tooltipWidth = centerText.offsetWidth;
                     const tooltipHeight = centerText.offsetHeight;
                     
-                    // Calculate position relative to chart container
                     let x = event.native.clientX - containerRect.left;
                     let y = event.native.clientY - containerRect.top;
 
-                    // Ensure tooltip stays within container bounds
                     if (x + tooltipWidth > containerRect.width - 10) {
                         x = containerRect.width - tooltipWidth - 10;
                     }
@@ -446,7 +416,6 @@ function processDataForChart(visits, type = 'doughnut') {
             },
             events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove'],
             onLeave: () => {
-                // Reset everything when mouse leaves chart
                 const centerText = document.querySelector('.chart-center-text');
                 centerText.style.opacity = '0';
                 if (currentChart) {
@@ -466,15 +435,14 @@ function processDataForChart(visits, type = 'doughnut') {
 }
 
 function generateColors(count) {
-    // Updated color palette with more contrasting colors
     const palette = [
-        '#FF4B4B', // Brighter Red
-        '#00BFA5', // Vibrant Teal
-        '#2196F3', // Bright Blue
-        '#FFC107', // Vivid Yellow
-        '#4CAF50', // Strong Green
-        '#9C27B0', // Rich Purple
-        '#FF9800'  // Bright Orange
+        '#FF4B4B',
+        '#00BFA5',
+        '#2196F3',
+        '#FFC107',
+        '#4CAF50',
+        '#9C27B0',
+        '#FF9800'
     ];
     
     const colors = [];
@@ -489,7 +457,6 @@ async function updateSitesList(visits, sortBy = 'time') {
     const sitesList = document.getElementById('sitesList');
     sitesList.innerHTML = '';
 
-    // Filter and group visits
     const groupedVisits = {};
     Object.entries(visits).forEach(([domain, data]) => {
         if (domain.startsWith('chrome://')) return;
@@ -515,7 +482,6 @@ async function updateSitesList(visits, sortBy = 'time') {
         }
     });
 
-    // Sort sites based on selected method
     const sortedSites = Object.entries(groupedVisits).sort(([,a], [,b]) => {
         switch(sortBy) {
             case 'visits':
@@ -530,10 +496,8 @@ async function updateSitesList(visits, sortBy = 'time') {
 
     const total = sortedSites.reduce((sum, [,data]) => sum + data.totalTimeSpent, 0);
 
-    // Create list items for all sites
     for (const [domain, data] of sortedSites) {
         const percentage = ((data.totalTimeSpent / total) * 100).toFixed(2);
-        // Use the same color as chart if it's in top 6, otherwise use grey
         const color = window.siteColors[domain] || '#94a3b8';
         const formattedTime = await formatTime(data.totalTimeSpent);
         
@@ -597,10 +561,8 @@ async function clearData() {
     `;
     document.body.appendChild(modal);
 
-    // Show modal with animation
     setTimeout(() => modal.classList.add('show'), 10);
 
-    // Handle button clicks
     return new Promise((resolve) => {
         modal.querySelector('.cancel-button').onclick = () => {
             modal.classList.remove('show');
@@ -636,7 +598,6 @@ function needsChartUpdate(newData) {
         .slice(0, 5)
         .map(v => v.totalTimeSpent);
     
-    // If there's a hover effect active, preserve it
     const hasHoverEffect = Array.isArray(currentChart.data.datasets[0].backgroundColor) &&
         currentChart.data.datasets[0].backgroundColor.some(color => color.endsWith('80'));
     
@@ -644,41 +605,26 @@ function needsChartUpdate(newData) {
         return false;
     }
     
-    // Check if values have changed significantly (more than 1 second)
     return !oldData.every((val, i) => Math.abs(val - newValues[i]) < 1);
 }
 
-// Update the cleanDomain function to handle any subdomain
 function cleanDomain(domain) {
-    // Split the domain by dots
     const parts = domain.split('.');
     
-    // If we have more than 2 parts (subdomains present)
     if (parts.length > 2) {
-        // Check for special cases like co.uk, com.br, etc.
         const lastTwo = parts.slice(-2).join('.');
         const specialTlds = ['co.uk', 'com.br', 'co.jp', 'com.au', 'co.nz'];
         
         if (specialTlds.includes(lastTwo)) {
-            // Return last three parts for special TLDs
             return parts.slice(-3).join('.');
         } else {
-            // Return just the last two parts for normal domains
             return parts.slice(-2).join('.');
         }
     }
     
-    // Return as is if it's already a base domain
     return domain;
 }
 
-// Example usage:
-// cleanDomain('api.dev.example.com') -> 'example.com'
-// cleanDomain('shop.example.co.uk') -> 'example.co.uk'
-// cleanDomain('example.com') -> 'example.com'
-// cleanDomain('subdomain.blog.example.com.br') -> 'example.com.br'
-
-// Add this function to check if mouse is over chart
 function isMouseOverChart(event, chart) {
     const chartArea = chart.canvas.getBoundingClientRect();
     return (
@@ -689,16 +635,15 @@ function isMouseOverChart(event, chart) {
     );
 }
 
-// Add this helper function to get the appropriate icon
 function getSortIcon(sortBy) {
     switch(sortBy) {
         case 'visits':
-            return 'fa-arrow-up-9-1';  // Icon for most visits
+            return 'fa-arrow-up-9-1';
         case 'recent':
-            return 'fa-clock';         // Icon for recently visited
+            return 'fa-clock';
         case 'time':
         default:
-            return 'fa-hourglass';     // Icon for time spent
+            return 'fa-hourglass';
     }
 }
  
