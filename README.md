@@ -1,7 +1,7 @@
 # TrackMyWeb
 
 <p align="center">
-  <img src="icons/logo128.png" alt="TrackMyWeb Logo" width="128" height="128">
+  <img src="icons/icon128.png" alt="TrackMyWeb Logo" width="128" height="128">
 </p>
 
 <h3 align="center">Track your web activity, visualize your browsing habits, and get insights into your internet usage.</h3>
